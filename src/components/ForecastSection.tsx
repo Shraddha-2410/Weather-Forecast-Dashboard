@@ -26,6 +26,17 @@ const ForecastSection = ({ forecast }: ForecastSectionProps) => {
     }
   };
 
+  const getDayName = (dayString: string, index: number) => {
+    if (dayString === 'Today') return 'Today';
+    if (dayString === 'Tomorrow') return 'Tomorrow';
+    
+    const today = new Date();
+    const futureDate = new Date(today);
+    futureDate.setDate(today.getDate() + index);
+    
+    return futureDate.toLocaleDateString('en-IN', { weekday: 'short' });
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-semibold text-white mb-4">5-Day Forecast</h2>
@@ -34,11 +45,11 @@ const ForecastSection = ({ forecast }: ForecastSectionProps) => {
           {forecast.map((day, index) => (
             <div 
               key={day.day}
-              className="text-center p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+              className="text-center p-4 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="text-white/90 font-medium mb-2">
-                {day.day}
+                {getDayName(day.day, index)}
               </div>
               <div className="mb-3 flex justify-center">
                 {getWeatherIcon(day.condition)}

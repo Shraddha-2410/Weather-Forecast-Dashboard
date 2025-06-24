@@ -4,12 +4,13 @@ import WeatherHeader from '../components/WeatherHeader';
 import CurrentWeather from '../components/CurrentWeather';
 import WeatherDetails from '../components/WeatherDetails';
 import ForecastSection from '../components/ForecastSection';
+import LocationSelector from '../components/LocationSelector';
 
 const Index = () => {
   const [currentWeather, setCurrentWeather] = useState({
     temperature: 24,
     condition: 'sunny',
-    location: 'San Francisco, CA',
+    location: 'Mumbai, Maharashtra',
     description: 'Sunny',
     humidity: 65,
     windSpeed: 12,
@@ -25,22 +26,23 @@ const Index = () => {
     { day: 'Friday', high: 25, low: 17, condition: 'sunny', description: 'Sunny' }
   ]);
 
-  const getBackgroundClass = (condition: string) => {
-    switch (condition) {
-      case 'sunny': return 'bg-sunny';
-      case 'cloudy': return 'bg-cloudy';
-      case 'rainy': return 'bg-rainy';
-      case 'snowy': return 'bg-snowy';
-      default: return 'bg-sunny';
-    }
+  const handleLocationChange = (location: string) => {
+    setCurrentWeather(prev => ({
+      ...prev,
+      location: location
+    }));
   };
 
   return (
-    <div className={`min-h-screen ${getBackgroundClass(currentWeather.condition)} transition-all duration-1000`}>
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 transition-all duration-1000">
       <div className="min-h-screen bg-black/10 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-6">
           <div className="animate-fade-in">
             <WeatherHeader location={currentWeather.location} />
+            
+            <div className="mt-6">
+              <LocationSelector onLocationChange={handleLocationChange} />
+            </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
               <div className="lg:col-span-2 space-y-6">
